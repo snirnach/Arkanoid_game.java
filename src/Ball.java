@@ -5,7 +5,7 @@ import biuoop.Sleeper;
 import javax.swing.*;
 import java.awt.*;
 
-public class Ball {
+public class Ball implements Sprite {
     private int radius;
     private java.awt.Color color;
     private Point location;
@@ -49,10 +49,20 @@ public class Ball {
         this.gameEnvironment = gameEnvironment;
     }
 
+
+    public void addToGame(Game game) {
+        game.addSprite(this);
+    }
     // draw the ball on the given DrawSurface
+    @Override
     public void drawOn(DrawSurface surface){
         surface.setColor(color);
         surface.fillCircle(getX(), getY(), getSize());
+    }
+
+    @Override
+    public void timePassed() {
+        moveOneStep();
     }
 
     public void setVelocity(Velocity v){
@@ -73,25 +83,30 @@ public class Ball {
         if (collisionInfo != null) {
             Point collisionPoint = collisionInfo.collisionPoint();
             Collidable object = collisionInfo.collisionObject();
+            Velocity currentV = this.velocity;
+            Velocity newV = object.hit(collisionPoint, currentV);
 
             double epsilon = 0.0001;
             double newX = collisionPoint.getX();
             double newY = collisionPoint.getY();
 
-            if (velocity.getDx() > 0) {
-                newX = newX - epsilon;
-            } else if (velocity.getDx() < 0) {
-                newX = newX + epsilon;
+            if (newV.getDx() != currentV.getDx()) {
+                if (velocity.getDx() > 0) {
+                    newX = newX - epsilon;
+                } else if (velocity.getDx() < 0) {
+                    newX = newX + epsilon;
+                }
             }
 
-            if (velocity.getDy() > 0) {
-                newY = newY - epsilon;
-            } else if (velocity.getDy() < 0) {
-                newY = newY + epsilon;
+            if (newV.getDy() != currentV.getDy()) {
+                if (velocity.getDy() > 0) {
+                    newY = newY - epsilon;
+                } else if (velocity.getDy() < 0) {
+                    newY = newY + epsilon;
+                }
             }
 
             this.location = new Point(newX, newY);
-            Velocity newV = object.hit(collisionPoint, this.velocity);
             this.setVelocity(newV);
 
         } else {
@@ -100,26 +115,4 @@ public class Ball {
     }
     }
 
-
-
-    public static void main(String[] args) {
-        Point start = new Point(0, 0);
-        drawAnimation(start, 15, 10);
-    }
-
-    static void drawAnimation(Point start, double dx, double dy) {
-        int width = 200;
-        int height = 200;
-        GUI gui = new GUI("title",width,height);
-        Sleeper sleeper = new Sleeper();
-        Ball ball = new Ball((int) start.getX(), (int) start.getY(), 30, java.awt.Color.BLACK);
-        ball.setVelocity(dx, dy);
-        while (true) {
-            ball.moveOneStep();
-            DrawSurface d = gui.getDrawSurface();
-            ball.drawOn(d);
-            gui.show(d);
-            sleeper.sleepFor(50);  // wait for 50 milliseconds.
-        }
-    }
 }

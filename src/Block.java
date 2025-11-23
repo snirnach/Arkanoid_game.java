@@ -2,7 +2,7 @@ import biuoop.DrawSurface;
 
 import java.awt.*;
 
-public class Block implements Collidable {
+public class Block implements Collidable, Sprite {
     private Rectangle collisionRectangle;
     private Color color;
 
@@ -45,12 +45,28 @@ public class Block implements Collidable {
         return Line.inLine(line.start(), line.end(), slice);
     }
 
+    public void addToGame(Game game) {
+        game.addSprite(this);
+        game.addCollidable(this);
+    }
 
+    @Override
     public void drawOn(DrawSurface d) {
         d.setColor(this.color);
         d.fillRectangle((int) collisionRectangle.getUpperLeft().getX(),
                 (int) collisionRectangle.getUpperLeft().getY(),
                 (int) collisionRectangle.getWidth(),
                 (int) collisionRectangle.getHeight());
+
+        d.setColor(Color.BLACK);
+        d.drawRectangle((int) collisionRectangle.getUpperLeft().getX(),
+                (int) collisionRectangle.getUpperLeft().getY(),
+                (int) collisionRectangle.getWidth(),
+                (int) collisionRectangle.getHeight());
+    }
+
+    @Override
+    public void timePassed() {
+
     }
 }

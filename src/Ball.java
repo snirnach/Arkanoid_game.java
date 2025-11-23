@@ -10,6 +10,7 @@ public class Ball {
     private java.awt.Color color;
     private Point location;
     private Velocity velocity;
+    private GameEnvironment gameEnvironment;
 
 
     public Ball(Point center, int r, java.awt.Color color){
@@ -44,6 +45,10 @@ public class Ball {
         return color;
     }
 
+    public void setGameEnvironment(GameEnvironment gameEnvironment) {
+        this.gameEnvironment = gameEnvironment;
+    }
+
     // draw the ball on the given DrawSurface
     public void drawOn(DrawSurface surface){
         surface.setColor(color);
@@ -60,30 +65,41 @@ public class Ball {
         return velocity;
     }
 
-    public void moveOneStep(int sw, int sh, int w, int h) {
-        this.location = this.getVelocity().applyToPoint(this.location);
+    public void moveOneStep() {
+        Line trajectory = new Line(this.location, this.velocity.applyToPoint(this.location));
 
-        Velocity currVel = getVelocity();
-       if (location.getX() - radius <= sw){
-           setVelocity(-currVel.getDx(), currVel.getDy());
-           currVel = getVelocity();
-           location.setX(radius + sw);
-       }
-       else if (location.getX() + radius >= w){
-           setVelocity(-currVel.getDx(), currVel.getDy());
-           currVel = getVelocity();
-           location.setX(w - radius);
-       }
+        CollisionInfo collisionInfo = this.gameEnvironment.getClosestCollision(trajectory);
 
-       if (location.getY() - radius <= sh){
-           setVelocity(currVel.getDx(), -currVel.getDy());
-           location.setY(radius + sh);
-       }
-       else if (location.getY() + radius >= h){
-           setVelocity(currVel.getDx(), -currVel.getDy());
-           location.setY(h - radius);
-       }
+        if (collisionInfo != null) {
+            Point collisionPoint = collisionInfo.collisionPoint();
+            Collidable object = collisionInfo.collisionObject();
+
+            double epsilon = 0.0001;
+            double newX = collisionPoint.getX();
+            double newY = collisionPoint.getY();
+
+            if (velocity.getDx() > 0) {
+                newX = newX - epsilon;
+            } else if (velocity.getDx() < 0) {
+                newX = newX + epsilon;
+            }
+
+            if (velocity.getDy() > 0) {
+                newY = newY - epsilon;
+            } else if (velocity.getDy() < 0) {
+                newY = newY + epsilon;
+            }
+
+            this.location = new Point(newX, newY);
+            Velocity newV = object.hit(collisionPoint, this.velocity);
+            this.setVelocity(newV);
+
+        } else {
+            this.location = this.velocity.applyToPoint(this.location);
+
     }
+    }
+
 
 
     public static void main(String[] args) {
@@ -99,7 +115,7 @@ public class Ball {
         Ball ball = new Ball((int) start.getX(), (int) start.getY(), 30, java.awt.Color.BLACK);
         ball.setVelocity(dx, dy);
         while (true) {
-            ball.moveOneStep(0, 0, width,height);
+            ball.moveOneStep();
             DrawSurface d = gui.getDrawSurface();
             ball.drawOn(d);
             gui.show(d);

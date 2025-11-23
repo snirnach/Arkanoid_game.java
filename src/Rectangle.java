@@ -1,3 +1,5 @@
+import biuoop.DrawSurface;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -52,4 +54,6 @@ public class Rectangle {
     public Line getRight(){
         return new Line(upperLeft.getX() + width, upperLeft.getY(), upperLeft.getX() + width, upperLeft.getY() + height);
     }
+
 }
+

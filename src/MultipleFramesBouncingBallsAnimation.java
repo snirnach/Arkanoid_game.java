@@ -43,11 +43,11 @@ public class MultipleFramesBouncingBallsAnimation {
 
             for (int i = 0; i < args.length; i++) {
                 if (i < args.length / 2) {
-                    balls[i].moveOneStep(50, 50, 500, 500);
+                    balls[i].moveOneStep();
                     balls[i].drawOn(d);
                 }
                 else {
-                    balls[i].moveOneStep(450, 450, 600, 600);
+                    balls[i].moveOneStep();
                     balls[i].drawOn(d);
                 }
             }

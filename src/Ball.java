@@ -115,4 +115,19 @@ public class Ball implements Sprite {
     }
     }
 
+    static void drawAnimation(Point start, double dx, double dy) {
+        int width = 200;
+        int height = 200;
+        GUI gui = new GUI("title",width,height);
+        Sleeper sleeper = new Sleeper();
+        Ball ball = new Ball((int) start.getX(), (int) start.getY(), 30, java.awt.Color.BLACK);
+        ball.setVelocity(dx, dy);
+        while (true) {
+            ball.moveOneStep();
+            DrawSurface d = gui.getDrawSurface();
+            ball.drawOn(d);
+            gui.show(d);
+            sleeper.sleepFor(50);  // wait for 50 milliseconds.
+        }
+    }
 }

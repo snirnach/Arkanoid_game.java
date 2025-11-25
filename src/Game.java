@@ -13,6 +13,7 @@ public class Game {
 
     public Game() {
         initialize();
+        run();
     }
 
     public void addCollidable(Collidable c){

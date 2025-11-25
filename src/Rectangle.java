@@ -54,6 +54,9 @@ public class Rectangle {
     public Line getRight(){
         return new Line(upperLeft.getX() + width, upperLeft.getY(), upperLeft.getX() + width, upperLeft.getY() + height);
     }
+    public void setLocation(Point newUpperLeft){
+        upperLeft = newUpperLeft;
+    }
 
 }
 

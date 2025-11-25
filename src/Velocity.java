@@ -14,6 +14,10 @@ public class Velocity {
         return new Velocity(dx, dy);
     }
 
+    public double getSpeed() {
+        return Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+    }
+
     public double getDx() {return this.dx; }
     public double getDy() {return this.dy; }
 

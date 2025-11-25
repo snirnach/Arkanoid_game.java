@@ -29,6 +29,7 @@ public class Game {
         this.environment = new GameEnvironment();
         this.sprites = new SpriteCollection();
         this.sleeper = new Sleeper();
+        biuoop.KeyboardSensor keyboard = gui.getKeyboardSensor();
 
         Block topBorder = new Block(new Rectangle(new Point(0,0), 800, 20), Color.GRAY);
         Block leftBorder = new Block(new Rectangle(new Point(0, 20), 20, 580), Color.GRAY);
@@ -45,6 +46,10 @@ public class Game {
         ball.setVelocity(2, -2);
         ball.setGameEnvironment(this.environment);
         ball.addToGame(this);
+
+        Paddle paddle = new Paddle(keyboard);
+        paddle.addToGame(this);
+
 
     }
 

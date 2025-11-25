@@ -26,13 +26,12 @@ public class Block implements Collidable, Sprite {
         double bottom = top + collisionRectangle.getHeight();
         double eps = 0.0001;
 
-        // פגיעה בקיר שמאל/ימין -> להפוך dx
         if (Math.abs(collisionPoint.getX() - left) < eps ||
                 Math.abs(collisionPoint.getX() - right) < eps) {
             newDx = -newDx;
         }
 
-        // פגיעה בקיר עליון/תחתון -> להפוך dy
+
         if (Math.abs(collisionPoint.getY() - top) < eps ||
                 Math.abs(collisionPoint.getY() - bottom) < eps) {
             newDy = -newDy;

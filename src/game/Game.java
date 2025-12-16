@@ -7,6 +7,8 @@ import collision.Collidable;
 import geometry.Velocity;
 import hit.BallRemover;
 import hit.BlockRemover;
+import score.ScoreIndicator;
+import score.ScoreTrackingListener;
 import sprites.Ball;
 import sprites.Block;
 import hit.Counter;
@@ -25,6 +27,7 @@ public class Game {
     private Sleeper sleeper;
     private Counter remainingBlocks;
     private Counter remainingBalls;
+    private Counter score;
 
     public Game() {
         initialize();
@@ -56,6 +59,8 @@ public class Game {
         biuoop.KeyboardSensor keyboard = gui.getKeyboardSensor();
         this.remainingBlocks = new Counter();
         BlockRemover blockRemover = new BlockRemover(this, this.remainingBlocks);
+        this.score = new Counter();
+        ScoreTrackingListener scoreListener = new ScoreTrackingListener(score);
 
         Block topBorder = new Block(new Rectangle(new Point(0,0), 800, 20), Color.GRAY);
         Block leftBorder = new Block(new Rectangle(new Point(0, 20), 20, 580), Color.GRAY);
@@ -66,7 +71,10 @@ public class Game {
         rightBorder.addToGame(this);
         deathRegion.addToGame(this);
 
-        createBlockPattern(blockRemover);
+        ScoreIndicator scoreIndicator = new ScoreIndicator(score);
+        sprites.addSprite(scoreIndicator);
+
+        createBlockPattern(blockRemover, scoreListener);
 
         this.remainingBalls = new Counter();
         this.remainingBalls.increase(3);
@@ -92,12 +100,13 @@ public class Game {
 
     }
 
-    private void createBlockPattern(BlockRemover remover) {
+    private void createBlockPattern(BlockRemover remover, ScoreTrackingListener scoreListener) {
         for (int y = 100; y < 250; y += 15 ){
             Color randomColor = getRandomColor();
                 for (int x = 100; x < 700; x += 40) {
                 Block block = new Block(new Rectangle(new Point(x, y), 40, 15), randomColor);
                 block.addToGame(this);
+                block.addHitListener(scoreListener);
                 block.addHitListener(remover);
                 this.remainingBlocks.increase(1);
             }
@@ -132,6 +141,9 @@ public class Game {
             if (milliSecondLeftToSleep > 0) {
                 sleeper.sleepFor(milliSecondLeftToSleep);
             }
+        }
+        if (this.remainingBlocks.getValue() == 0) {
+            this.score.increase(100);
         }
         gui.close();
     }

@@ -3,6 +3,7 @@ package sprites;
 import biuoop.DrawSurface;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SpriteCollection {
     private ArrayList<Sprite> sprites;
@@ -16,8 +17,10 @@ public class SpriteCollection {
 
 
     // call timePassed() on all sprites.
-    public void notifyAllTimePassed(){
-        for (Sprite s : sprites){
+    public void notifyAllTimePassed() {
+        List<Sprite> spritesCopy = new ArrayList<>(this.sprites);
+
+        for (Sprite s : spritesCopy) {
             s.timePassed();
         }
     }

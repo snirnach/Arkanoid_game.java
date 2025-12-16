@@ -4,6 +4,8 @@ import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
 import collision.Collidable;
+import geometry.Velocity;
+import hit.BallRemover;
 import hit.BlockRemover;
 import sprites.Ball;
 import sprites.Block;
@@ -22,6 +24,7 @@ public class Game {
     private GUI gui;
     private Sleeper sleeper;
     private Counter remainingBlocks;
+    private Counter remainingBalls;
 
     public Game() {
         initialize();
@@ -57,18 +60,31 @@ public class Game {
         Block topBorder = new Block(new Rectangle(new Point(0,0), 800, 20), Color.GRAY);
         Block leftBorder = new Block(new Rectangle(new Point(0, 20), 20, 580), Color.GRAY);
         Block rightBorder = new Block(new Rectangle(new Point(780, 20), 20, 580), Color.GRAY);
-        Block downBorder = new Block(new Rectangle(new Point(0, 580), 800,20), Color.GRAY);
+        Block deathRegion = new Block(new Rectangle(new Point(0, 600), 800, 20), Color.BLACK);
         topBorder.addToGame(this);
         leftBorder.addToGame(this);
         rightBorder.addToGame(this);
-        downBorder.addToGame(this);
+        deathRegion.addToGame(this);
 
         createBlockPattern(blockRemover);
 
-        Ball ball = new Ball(400, 300, 5, java.awt.Color.WHITE);
-        ball.setVelocity(2, -2);
-        ball.setGameEnvironment(this.environment);
-        ball.addToGame(this);
+        this.remainingBalls = new Counter();
+        this.remainingBalls.increase(3);
+
+        for (int i = 0; i < 3; i++) {
+            Ball ball = new Ball(400, 250 + (40 * i), 5, java.awt.Color.WHITE);
+
+
+            double angle = 330 + (i * 20);
+            Velocity v = Velocity.fromAngleAndSpeed(angle, 2);
+
+            ball.setVelocity(v);
+            ball.setGameEnvironment(this.environment);
+            ball.addToGame(this);
+        }
+        BallRemover ballRemover = new BallRemover(this, this.remainingBalls);
+        deathRegion.addHitListener(ballRemover);
+
 
         Paddle paddle = new Paddle(keyboard);
         paddle.addToGame(this);
@@ -102,7 +118,7 @@ public class Game {
 
         int framesPerSecond = 60;
         int millisecondsPerFrame = 1000 / framesPerSecond;
-        while (this.remainingBlocks.getValue() > 0) {
+        while (this.remainingBlocks.getValue() > 0 && this.remainingBalls.getValue() > 0) {
             long startTime = System.currentTimeMillis(); // timing
 
             DrawSurface d = gui.getDrawSurface();

@@ -1,5 +1,13 @@
+package game;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import collision.Collidable;
+import collision.CollisionInfo;
+import geometry.Line;
+import geometry.Point;
+import geometry.Rectangle;
 
 public class GameEnvironment {
     private List<Collidable> collidables;
@@ -45,4 +53,7 @@ public class GameEnvironment {
 
     }
 
+    public void removeCollidable(Collidable c) {
+        this.collidables.remove(c);
+    }
 }

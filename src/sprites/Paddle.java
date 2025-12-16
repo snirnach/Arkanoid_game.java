@@ -1,7 +1,17 @@
+package sprites;
+
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
 
-import java.awt.*;
+import java.awt.Color;
+
+import collision.Collidable;
+import geometry.Point;
+import geometry.Rectangle;
+import geometry.Velocity;
+
+import game.Game;
+
 
 public class Paddle implements Sprite, Collidable {
     private biuoop.KeyboardSensor keyboard;
@@ -37,7 +47,7 @@ public class Paddle implements Sprite, Collidable {
                 (int) rect.getHeight());
     }
 
-    // Sprite
+    // sprites.Sprite
     public void timePassed(){
         if (keyboard.isPressed(KeyboardSensor.LEFT_KEY) && rect.getUpperLeft().getX() - speed >= 20) {
             moveLeft();
@@ -51,7 +61,7 @@ public class Paddle implements Sprite, Collidable {
     public Rectangle getCollisionRectangle(){
         return rect;
     }
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity){
+    public Velocity hit(Ball hitter,Point collisionPoint, Velocity currentVelocity){
         double speed = currentVelocity.getSpeed();
         double paddleTopY = rect.getUpperLeft().getY();
         double eps = 0.0001; // המרחק לבדיקה

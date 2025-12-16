@@ -1,6 +1,16 @@
+package tests;
+
+import biuoop.GUI;
+import biuoop.DrawSurface;
+import sprites.Ball;
 import biuoop.GUI;
 import biuoop.DrawSurface;
 
+import java.awt.Color;
+
+import geometry.Point;
+import geometry.Velocity;
+import sprites.Ball;
 
 public class BallsTest1 {
     public static void main(String[] args) {

@@ -1,7 +1,26 @@
+package tests;
+
 import biuoop.GUI;
 import biuoop.DrawSurface;
 import biuoop.Sleeper;
+import sprites.Ball;
+import sprites.Block;
+
 import java.awt.Color;
+import biuoop.GUI;
+import biuoop.DrawSurface;
+import biuoop.Sleeper;
+
+import java.awt.Color;
+
+import geometry.Point;
+import geometry.Line;
+import geometry.Rectangle;
+import geometry.Velocity;
+
+import game.GameEnvironment;
+import sprites.Ball;
+import sprites.Block;
 
 public class CollisionTest {
     public static void main(String[] args) {
@@ -13,7 +32,7 @@ public class CollisionTest {
         GameEnvironment environment = new GameEnvironment();
 
         // יצירת בלוקים (קירות)
-        // שים לב: כאן אני מניח של-Rectangle יש בנאי (Point, width, height)
+        // שים לב: כאן אני מניח של-geometry.Rectangle יש בנאי (geometry.Point, width, height)
         Block topBlock = new Block(new Rectangle(new Point(0, 0), 800, 20), Color.GRAY);
         Block bottomBlock = new Block(new Rectangle(new Point(0, 580), 800, 20), Color.GRAY);
         Block leftBlock = new Block(new Rectangle(new Point(0, 20), 20, 560), Color.GRAY);

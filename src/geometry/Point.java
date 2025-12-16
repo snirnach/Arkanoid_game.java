@@ -1,3 +1,5 @@
+package geometry;
+
 public class Point {
     private double x, y;
     private static final double EPSILON = 0.00001;

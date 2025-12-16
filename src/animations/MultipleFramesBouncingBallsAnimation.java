@@ -1,6 +1,18 @@
+package animations;
+
 import biuoop.GUI;
 import biuoop.DrawSurface;
 import biuoop.Sleeper;
+import sprites.Ball;
+import biuoop.GUI;
+import biuoop.DrawSurface;
+import biuoop.Sleeper;
+
+import java.util.Random;
+
+import geometry.Point;
+import geometry.Velocity;
+import sprites.Ball;
 import java.awt.Color;
 import java.util.Random;
 

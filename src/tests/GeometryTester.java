@@ -1,3 +1,7 @@
+package tests;
+import geometry.Point;
+import geometry.Line;
+
 public class GeometryTester {
     final static double Comparison_threshold = 0.00001;
 
@@ -12,7 +16,7 @@ public class GeometryTester {
     }
 
     /**
-     * The method is in charge of testing the Point class.
+     * The method is in charge of testing the geometry.Point class.
      *
      * @return true if not mistakes were found, false otherwise.
      */
@@ -58,7 +62,7 @@ public class GeometryTester {
     }
 
     /**
-     * The method is in charge of testing the Line class.
+     * The method is in charge of testing the geometry.Line class.
      *
      * @return true if not mistakes were found, false otherwise.
      */
@@ -86,7 +90,7 @@ public class GeometryTester {
     }
 
     /**
-     * Main method, running tests on both the point and the line classes.
+     * main.Main method, running tests on both the point and the line classes.
      * @param args ignored.
      */
     public static void main(String[] args) {

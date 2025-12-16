@@ -1,9 +1,17 @@
+package sprites;
+
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
 
-import javax.swing.*;
-import java.awt.*;
+import collision.Collidable;
+import geometry.Point;
+import geometry.Velocity;
+import geometry.Line;
+
+import collision.CollisionInfo;
+import game.GameEnvironment;
+import game.Game;
 
 public class Ball implements Sprite {
     private int radius;
@@ -74,6 +82,9 @@ public class Ball implements Sprite {
     public Velocity getVelocity(){
         return velocity;
     }
+    public void removeFromGame(Game game) {
+        game.removeSprite(this);
+    }
 
     public void moveOneStep() {
         Line trajectory = new Line(this.location, this.velocity.applyToPoint(this.location));
@@ -84,7 +95,7 @@ public class Ball implements Sprite {
             Point collisionPoint = collisionInfo.collisionPoint();
             Collidable object = collisionInfo.collisionObject();
             Velocity currentV = this.velocity;
-            Velocity newV = object.hit(collisionPoint, currentV);
+            Velocity newV = object.hit(this,collisionPoint, currentV);
 
             double epsilon = 0.0001;
             double newX = collisionPoint.getX();

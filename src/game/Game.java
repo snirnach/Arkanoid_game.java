@@ -1,15 +1,27 @@
+package game;
+
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
-
-import java.awt.*;
+import collision.Collidable;
+import hit.BlockRemover;
+import sprites.Ball;
+import sprites.Block;
+import hit.Counter;
 import java.util.Random;
+import java.awt.Color;
+import geometry.Point;
+import geometry.Rectangle;
+import sprites.Sprite;
+import sprites.SpriteCollection;
+import sprites.Paddle;
 
 public class Game {
     private SpriteCollection sprites;
     private GameEnvironment environment;
     private GUI gui;
     private Sleeper sleeper;
+    private Counter remainingBlocks;
 
     public Game() {
         initialize();
@@ -23,7 +35,15 @@ public class Game {
         sprites.addSprite(s);
     }
 
-    // Initialize a new game: create the Blocks and Ball (and Paddle)
+    public void removeCollidable(Collidable c) {
+        this.environment.removeCollidable(c);
+    }
+
+    public void removeSprite(Sprite s) {
+        this.sprites.removeSprite(s);
+    }
+
+    // Initialize a new game: create the Blocks and sprites.Ball (and sprites.Paddle)
     // and add them to the game.
     public void initialize(){
         this.gui = new GUI("Arkanoid Handout", 800, 600);
@@ -31,6 +51,8 @@ public class Game {
         this.sprites = new SpriteCollection();
         this.sleeper = new Sleeper();
         biuoop.KeyboardSensor keyboard = gui.getKeyboardSensor();
+        this.remainingBlocks = new Counter();
+        BlockRemover blockRemover = new BlockRemover(this, this.remainingBlocks);
 
         Block topBorder = new Block(new Rectangle(new Point(0,0), 800, 20), Color.GRAY);
         Block leftBorder = new Block(new Rectangle(new Point(0, 20), 20, 580), Color.GRAY);
@@ -41,7 +63,7 @@ public class Game {
         rightBorder.addToGame(this);
         downBorder.addToGame(this);
 
-        createBlockPattern();
+        createBlockPattern(blockRemover);
 
         Ball ball = new Ball(400, 300, 5, java.awt.Color.WHITE);
         ball.setVelocity(2, -2);
@@ -54,12 +76,14 @@ public class Game {
 
     }
 
-    private void createBlockPattern() {
+    private void createBlockPattern(BlockRemover remover) {
         for (int y = 100; y < 250; y += 15 ){
             Color randomColor = getRandomColor();
                 for (int x = 100; x < 700; x += 40) {
                 Block block = new Block(new Rectangle(new Point(x, y), 40, 15), randomColor);
                 block.addToGame(this);
+                block.addHitListener(remover);
+                this.remainingBlocks.increase(1);
             }
         }
 
@@ -78,7 +102,7 @@ public class Game {
 
         int framesPerSecond = 60;
         int millisecondsPerFrame = 1000 / framesPerSecond;
-        while (true) {
+        while (this.remainingBlocks.getValue() > 0) {
             long startTime = System.currentTimeMillis(); // timing
 
             DrawSurface d = gui.getDrawSurface();
@@ -93,5 +117,6 @@ public class Game {
                 sleeper.sleepFor(milliSecondLeftToSleep);
             }
         }
+        gui.close();
     }
 }

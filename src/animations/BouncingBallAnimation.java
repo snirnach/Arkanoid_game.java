@@ -1,3 +1,9 @@
+package animations;
+
+import sprites.Ball;
+import geometry.Point;
+
+
 
 public class BouncingBallAnimation {
     public static void main(String[] args) {
@@ -10,6 +16,6 @@ public class BouncingBallAnimation {
 
         Point start = new Point(x, y);
 
-        Ball.drawAnimation(start, dx, dy);
+        // Ball.drawAnimation(start, dx, dy);
     }
 }

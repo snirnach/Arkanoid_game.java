@@ -1,6 +1,5 @@
-import biuoop.DrawSurface;
+package geometry;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Rectangle {

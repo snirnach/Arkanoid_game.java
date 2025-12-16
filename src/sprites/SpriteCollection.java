@@ -1,3 +1,5 @@
+package sprites;
+
 import biuoop.DrawSurface;
 
 import java.util.ArrayList;
@@ -25,5 +27,9 @@ public class SpriteCollection {
         for (Sprite s : sprites){
             s.drawOn(d);
         }
+    }
+
+    public void removeSprite(Sprite s) {
+        this.sprites.remove(s);
     }
 }

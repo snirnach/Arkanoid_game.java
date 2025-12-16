@@ -1,5 +1,9 @@
+package animations;
+
 import biuoop.GUI;
 import biuoop.DrawSurface;
+import geometry.Line;
+import geometry.Point;
 
 import java.util.Random;
 import java.awt.Color;

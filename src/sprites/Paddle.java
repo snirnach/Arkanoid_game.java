@@ -10,7 +10,7 @@ import geometry.Point;
 import geometry.Rectangle;
 import geometry.Velocity;
 
-import game.Game;
+import game.GameLevel;
 
 
 public class Paddle implements Sprite, Collidable {
@@ -19,11 +19,12 @@ public class Paddle implements Sprite, Collidable {
     private Color color;
     private double speed;
 
-    public Paddle(biuoop.KeyboardSensor keyboard) {
+    public Paddle(biuoop.KeyboardSensor keyboard, int paddleWidth, double paddleSpeed){
         this.keyboard = keyboard;
-        rect = new Rectangle(new Point(375,565),50, 15);
+        int paddleX = (800 - paddleWidth) / 2;
+        rect = new Rectangle(new Point(paddleX,565),paddleWidth, 15);
         color = Color.ORANGE;
-        speed = 3;
+        speed = paddleSpeed;
     }
 
     public void moveLeft(){
@@ -52,7 +53,7 @@ public class Paddle implements Sprite, Collidable {
         if (keyboard.isPressed(KeyboardSensor.LEFT_KEY) && rect.getUpperLeft().getX() - speed >= 20) {
             moveLeft();
         }
-        if (keyboard.isPressed(KeyboardSensor.RIGHT_KEY) && rect.getUpperLeft().getX() + 50 + speed <= 780) {
+        if (keyboard.isPressed(KeyboardSensor.RIGHT_KEY) && rect.getUpperLeft().getX() + rect.getWidth() + speed <= 780) {
             moveRight();
         }
     }
@@ -64,22 +65,23 @@ public class Paddle implements Sprite, Collidable {
     public Velocity hit(Ball hitter,Point collisionPoint, Velocity currentVelocity){
         double speed = currentVelocity.getSpeed();
         double paddleTopY = rect.getUpperLeft().getY();
-        double eps = 0.0001; // המרחק לבדיקה
+        double eps = 0.0001;
+
 
         if (collisionPoint.getY() <= paddleTopY + eps && currentVelocity.getDy() > 0) {
 
-            double relativeX = collisionPoint.getX() - rect.getUpperLeft().getX(); // המרחק היחסי מהקצה השמאלי
+            double relativeX = collisionPoint.getX() - rect.getUpperLeft().getX();
 
-            if (relativeX <= 10) {
+            if (relativeX <= rect.getUpperLeft().getX() + rect.getWidth() / 5) {
                 return Velocity.fromAngleAndSpeed(300, speed);
             }
-            else if (relativeX <= 20) {
+            else if (relativeX <= rect.getUpperLeft().getX() + 2 * rect.getWidth() / 5) {
                 return Velocity.fromAngleAndSpeed(330, speed);
             }
-            else if (relativeX <= 30) {
-                return Velocity.fromAngleAndSpeed(0, speed); // 0 מעלות = ישר למעלה
+            else if (relativeX <= rect.getUpperLeft().getX() + 3 * rect.getWidth() / 5) {
+                return Velocity.fromAngleAndSpeed(0, speed); //
             }
-            else if (relativeX <= 40) {
+            else if (relativeX <= rect.getUpperLeft().getX() + 4 * rect.getWidth() / 5) {
                 return Velocity.fromAngleAndSpeed(30, speed);
             }
             else {
@@ -92,7 +94,7 @@ public class Paddle implements Sprite, Collidable {
     }
 
     // Add this paddle to the game.
-    public void addToGame(Game g){
+    public void addToGame(GameLevel g){
         g.addSprite(this);
         g.addCollidable(this);
     }

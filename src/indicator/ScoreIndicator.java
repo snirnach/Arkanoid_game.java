@@ -1,4 +1,4 @@
-package score;
+package indicator;
 
 import biuoop.DrawSurface;
 import hit.Counter;
@@ -25,4 +25,5 @@ public class ScoreIndicator implements Sprite {
     @Override
     public void timePassed() {
     }
+
 }

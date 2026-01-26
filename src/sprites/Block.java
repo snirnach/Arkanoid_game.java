@@ -10,7 +10,7 @@ import geometry.Line;
 import geometry.Rectangle;
 import geometry.Velocity;
 
-import game.Game;
+import game.GameLevel;
 import hit.HitNotifier;
 
 public class Block implements Collidable, Sprite, HitNotifier {
@@ -64,7 +64,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
         return new Velocity(newDx, newDy);
     }
 
-    public void removeFromGame(Game game) {
+    public void removeFromGame(GameLevel game) {
         game.removeCollidable(this);
         game.removeSprite(this);
     }
@@ -82,7 +82,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
         return Line.inLine(line.start(), line.end(), slice);
     }
 
-    public void addToGame(Game game) {
+    public void addToGame(GameLevel game) {
         game.addSprite(this);
         game.addCollidable(this);
     }

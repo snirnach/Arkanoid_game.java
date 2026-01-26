@@ -1,4 +1,4 @@
-package score;
+package indicator;
 
 import hit.Counter;
 import hit.HitListener;

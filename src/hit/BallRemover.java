@@ -1,13 +1,13 @@
 package hit;
-import game.Game;
+import game.GameLevel;
 import sprites.Ball;
 import sprites.Block;
 
 public class BallRemover implements HitListener {
-    private Game game;
+    private GameLevel game;
     private Counter remainingBalls;
 
-    public BallRemover(Game game, Counter remainingBalls) {
+    public BallRemover(GameLevel game, Counter remainingBalls) {
         this.game = game;
         this.remainingBalls = remainingBalls;
     }
@@ -15,6 +15,7 @@ public class BallRemover implements HitListener {
     @Override
     public void hitEvent(Block beingHit, Ball hitter) {
         hitter.removeFromGame(this.game);
+        hitter.removeFromGame(game);
         this.remainingBalls.decrease(1);
     }
 }

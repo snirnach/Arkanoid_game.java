@@ -11,7 +11,7 @@ import geometry.Line;
 
 import collision.CollisionInfo;
 import game.GameEnvironment;
-import game.Game;
+import game.GameLevel;
 
 public class Ball implements Sprite {
     private int radius;
@@ -58,7 +58,7 @@ public class Ball implements Sprite {
     }
 
 
-    public void addToGame(Game game) {
+    public void addToGame(GameLevel game) {
         game.addSprite(this);
     }
     // draw the ball on the given DrawSurface
@@ -66,6 +66,8 @@ public class Ball implements Sprite {
     public void drawOn(DrawSurface surface){
         surface.setColor(color);
         surface.fillCircle(getX(), getY(), getSize());
+        surface.setColor(java.awt.Color.BLACK);
+        surface.drawCircle(this.getX(), this.getY(), this.getSize());
     }
 
     @Override
@@ -82,7 +84,7 @@ public class Ball implements Sprite {
     public Velocity getVelocity(){
         return velocity;
     }
-    public void removeFromGame(Game game) {
+    public void removeFromGame(GameLevel game) {
         game.removeSprite(this);
     }
 

@@ -1,15 +1,15 @@
 package hit;
 
-import game.Game;
+import game.GameLevel;
 import sprites.Ball;
 import sprites.Block;
 
 
 public class BlockRemover implements HitListener {
-    private Game game;
+    private GameLevel game;
     private Counter remainingBlocks;
 
-    public BlockRemover(Game game, Counter removedBlocks) {
+    public BlockRemover(GameLevel game, Counter removedBlocks) {
         this.game = game;
         this.remainingBlocks = removedBlocks;
     }

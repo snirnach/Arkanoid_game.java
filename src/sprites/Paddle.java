@@ -62,32 +62,35 @@ public class Paddle implements Sprite, Collidable {
     public Rectangle getCollisionRectangle(){
         return rect;
     }
+
     public Velocity hit(Ball hitter,Point collisionPoint, Velocity currentVelocity){
         double speed = currentVelocity.getSpeed();
-        double paddleTopY = rect.getUpperLeft().getY();
+        double regionWidth = rect.getWidth() / 5;
+        double relativeX = collisionPoint.getX() - rect.getUpperLeft().getX();
         double eps = 0.0001;
 
 
-        if (collisionPoint.getY() <= paddleTopY + eps && currentVelocity.getDy() > 0) {
+        if (currentVelocity.getDy() > 0) {
 
-            double relativeX = collisionPoint.getX() - rect.getUpperLeft().getX();
-
-            if (relativeX <= rect.getUpperLeft().getX() + rect.getWidth() / 5) {
+            if (relativeX <= regionWidth) {
                 return Velocity.fromAngleAndSpeed(300, speed);
             }
-            else if (relativeX <= rect.getUpperLeft().getX() + 2 * rect.getWidth() / 5) {
+
+            else if (relativeX <= 2 * regionWidth) {
                 return Velocity.fromAngleAndSpeed(330, speed);
             }
-            else if (relativeX <= rect.getUpperLeft().getX() + 3 * rect.getWidth() / 5) {
-                return Velocity.fromAngleAndSpeed(0, speed); //
+
+            else if (relativeX <= 3 * regionWidth) {
+                return new Velocity(currentVelocity.getDx(), -currentVelocity.getDy());
             }
-            else if (relativeX <= rect.getUpperLeft().getX() + 4 * rect.getWidth() / 5) {
+
+            else if (relativeX <= 4 * regionWidth) {
                 return Velocity.fromAngleAndSpeed(30, speed);
             }
+
             else {
                 return Velocity.fromAngleAndSpeed(60, speed);
             }
-
         } else {
             return new Velocity(-currentVelocity.getDx(), currentVelocity.getDy());
         }

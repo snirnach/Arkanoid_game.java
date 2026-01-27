@@ -1,7 +1,8 @@
 package sprites;
 import biuoop.DrawSurface;
 import hit.HitListener;
-import java.awt.Color;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import collision.Collidable;
@@ -17,6 +18,9 @@ public class Block implements Collidable, Sprite, HitNotifier {
     private Rectangle collisionRectangle;
     private Color color;
     private List<HitListener> hitListeners;
+    private java.awt.Color stroke;
+    private int hitPoints;
+    private Image image;
 
     public Block(Rectangle rect, Color color) {
         collisionRectangle = rect;
@@ -89,21 +93,47 @@ public class Block implements Collidable, Sprite, HitNotifier {
 
     @Override
     public void drawOn(DrawSurface d) {
+        if (this.image != null) {
+            d.drawImage((int) collisionRectangle.getUpperLeft().getX(),
+                    (int) collisionRectangle.getUpperLeft().getY(),
+                    this.image);
+        } else {
         d.setColor(this.color);
         d.fillRectangle((int) collisionRectangle.getUpperLeft().getX(),
                 (int) collisionRectangle.getUpperLeft().getY(),
                 (int) collisionRectangle.getWidth(),
                 (int) collisionRectangle.getHeight());
 
-        d.setColor(Color.BLACK);
-        d.drawRectangle((int) collisionRectangle.getUpperLeft().getX(),
-                (int) collisionRectangle.getUpperLeft().getY(),
-                (int) collisionRectangle.getWidth(),
-                (int) collisionRectangle.getHeight());
+        if (this.stroke != null) {
+            d.setColor(this.stroke);
+            d.drawRectangle((int) collisionRectangle.getUpperLeft().getX(),
+                    (int) collisionRectangle.getUpperLeft().getY(),
+                    (int) collisionRectangle.getWidth(),
+                    (int) collisionRectangle.getHeight());
+        } else {
+            d.setColor(Color.BLACK);
+            d.drawRectangle((int) collisionRectangle.getUpperLeft().getX(),
+                    (int) collisionRectangle.getUpperLeft().getY(),
+                    (int) collisionRectangle.getWidth(),
+                    (int) collisionRectangle.getHeight());
+            }
+        }
     }
 
     @Override
     public void timePassed() {
 
+    }
+
+    public void setStroke(java.awt.Color stroke) {
+        this.stroke = stroke;
+    }
+
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 }

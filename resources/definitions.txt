@@ -1,0 +1,25 @@
+# Default values for all blocks
+default height:25 width:50 stroke:color(black) hit_points:1
+
+# Block Definitions (Symobl -> Properties)
+# Red Block
+bdef symbol:R fill:color(Red)
+
+# Green Block
+bdef symbol:G fill:color(Green)
+
+# Blue Block
+bdef symbol:B fill:color(Blue) hit_points:2
+
+# Yellow Block
+bdef symbol:Y fill:color(Yellow)
+
+# Gray Block (Defined with Image)
+bdef symbol:X fill:image(block_images/brick.png) hit_points:3
+
+# Spacers Definitions (Empty spaces)
+# Small space
+sdef symbol:- width:10
+
+# Wide space
+sdef symbol:_ width:50

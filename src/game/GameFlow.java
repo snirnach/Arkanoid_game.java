@@ -45,19 +45,23 @@ public class GameFlow {
             }
 
             if (this.lives.getValue() == 0) {
+                HighScoreManager.updateHighScore(this.score.getValue());
                 Animation gameOver = new KeyPressStoppableAnimation(
                         this.keyboard, KeyboardSensor.SPACE_KEY, new GameOver(this.score));
                 this.runner.run(gameOver);
-                this.gui.close();
                 return;
             }
 
         }
+        HighScoreManager.updateHighScore(this.score.getValue());
 
         Animation youWin = new KeyPressStoppableAnimation(
                 this.keyboard, KeyboardSensor.SPACE_KEY, new YouWin(this.score));
         this.runner.run(youWin);
-        this.gui.close();
+    }
+
+    public int getScore() {
+        return this.score.getValue();
     }
 
 }

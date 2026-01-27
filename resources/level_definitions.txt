@@ -1,0 +1,74 @@
+START_LEVEL
+level_name:Direct Hit
+ball_velocities:0,5
+background:color(Black)
+paddle_speed:5
+paddle_width:100
+block_definitions:definitions.txt
+blocks_start_x:375
+blocks_start_y:150
+row_height:30
+num_blocks:1
+START_BLOCKS
+R
+END_BLOCKS
+END_LEVEL
+
+START_LEVEL
+level_name:Wide Easy
+ball_velocities:315,5 45,5
+background:image(background_images/night.png)
+paddle_speed:2
+paddle_width:600
+block_definitions:definitions.txt
+blocks_start_x:25
+blocks_start_y:250
+row_height:25
+num_blocks:15
+START_BLOCKS
+RRRGGGYYYBBBXXX
+END_BLOCKS
+END_LEVEL
+
+START_LEVEL
+level_name:Green 3
+ball_velocities:315,6 45,6
+background:color(Green)
+paddle_speed:10
+paddle_width:100
+block_definitions:definitions.txt
+blocks_start_x:25
+blocks_start_y:100
+row_height:25
+num_blocks:40
+START_BLOCKS
+GGGGGGGGGGGGGGG
+-RRRRRRRRRRRRR-
+--XXXXXXXXXXX--
+---BBBBBBBBB---
+----YYYYYYY----
+END_BLOCKS
+END_LEVEL
+
+START_LEVEL
+level_name:Final Four
+ball_velocities:315,8 45,8 0,8
+background:color(Blue)
+paddle_speed:10
+paddle_width:100
+block_definitions:definitions.txt
+blocks_start_x:25
+blocks_start_y:100
+row_height:25
+num_blocks:57
+START_BLOCKS
+GGGGGGGGGGGGGGG
+-RRRRRRRRRRRRR-
+--XXXXXXXXXXX--
+---BBBBBBBBB---
+----YYYYYYY----
+-----GGGGG-----
+------RRR------
+-------X-------
+END_BLOCKS
+END_LEVEL
